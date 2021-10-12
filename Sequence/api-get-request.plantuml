@@ -1,0 +1,38 @@
+@startuml
+autoactivate on
+actor User as User
+boundary OrderController as OrderController << (U,#ADD1B2) UI >>
+entity "Order\nRequest" as OrderRequest << (A,lightblue) App >>
+control "Order\nService" as OrderService << (A,lightblue) App >>
+control "Repo" as Repo << (I,darkred) Infra >>
+boundary "DbContext" as DbContext << (I,darkred) Infra >>
+database "DB" as DB
+entity Order as Order << (D,green) Domain >>
+entity "Order\nResponse" as OrderResponse << (A,lightblue) App >>
+
+
+User -> OrderController ** : GET /Orders/123
+
+OrderController -> OrderRequest ** : (model binding)
+
+OrderController -> OrderService ** : (injected)
+OrderController -> OrderService ++ : GetById(123)
+
+OrderService -> Repo ** : (injected)
+OrderService -> Repo ++ : GetById(123)
+
+Repo -> DbContext ** : (injected)
+Repo -> DbContext ++: Find(123)
+
+DbContext -> DB ++: "SELECT...WHERE ID=123"
+return datareader
+
+DbContext -> Order ** : new()
+return order 123
+return order 123
+
+OrderService -> OrderResponse ** : new()
+return response
+
+
+@enduml
