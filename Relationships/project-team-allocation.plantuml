@@ -1,0 +1,31 @@
+@startuml
+skinparam linetype ortho
+
+title NimblePros Team-Project Allocation
+
+package "Team Members" as TM{
+agent Eric
+agent Scott
+agent Steve
+}
+
+package "Projects" as P{
+rectangle Project1
+rectangle Project2
+rectangle Project3
+}
+
+TM -[hidden]right- P
+
+Eric -[hidden]down- Scott
+Scott -[hidden]down- Steve
+
+Project1 -[hidden]down- Project2
+Project2 -[hidden]down- Project3
+
+Steve -> Project1: 50%
+Eric -> Project1: 75%
+Eric -> Project2: 10%
+Scott -> Project2: 100%
+
+@enduml
